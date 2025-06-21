@@ -1,14 +1,20 @@
-import MapView from '../components/MapView'
+import dynamic from 'next/dynamic'
 import Ads from '../components/Ads'
 import { useTranslations } from '../lib/useTranslations'
+
+const MapView = dynamic(() => import('../components/MapView'), { ssr: false })
 
 export default function Promo() {
   const t = useTranslations()
 
   return (
-    <div className="p-6 max-w-lg mx-auto">
-      <MapView />
-      <Ads t={t} />
+    <div className="flex flex-col h-screen">
+      <div className="flex-1 p-4">
+        <MapView />
+      </div>
+      <div className="bg-white p-4 border-t border-gray-300">
+        <Ads t={t} />
+      </div>
     </div>
   )
-}
+    }
