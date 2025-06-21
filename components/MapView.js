@@ -3,7 +3,7 @@ import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api'
 
 const containerStyle = {
   width: '100%',
-  height: '300px',
+  height: '100%',
   borderRadius: '12px',
 }
 
@@ -13,9 +13,9 @@ const center = {
 }
 
 const exampleBikes = [
-  { id: 'bike1', lat: 42.4255, lng: 18.7720, battery: 87 },
-  { id: 'bike2', lat: 42.4230, lng: 18.7700, battery: 65 },
-  { id: 'bike3', lat: 42.4220, lng: 18.7740, battery: 92 },
+  { id: 'bike1', lat: 42.4255, lng: 18.7720 },
+  { id: 'bike2', lat: 42.4230, lng: 18.7700 },
+  { id: 'bike3', lat: 42.4220, lng: 18.7740 },
 ]
 
 export default function MapView() {
@@ -27,7 +27,7 @@ export default function MapView() {
   const [bikes, setBikes] = useState([])
 
   useEffect(() => {
-    // Burada gerçek API'den canlı veri çekebilirsin
+    // Canlı veri API'si bağlanınca buraya çekersin
     setBikes(exampleBikes)
   }, [])
 
@@ -39,15 +39,6 @@ export default function MapView() {
         <Marker
           key={bike.id}
           position={{ lat: bike.lat, lng: bike.lng }}
-          label={{
-            text: `Bat: ${bike.battery}%`,
-            fontWeight: 'bold',
-            color: 'white',
-            fontSize: '12px',
-            backgroundColor: '#0070f3',
-            padding: '2px 4px',
-            borderRadius: '4px',
-          }}
           icon={{
             url: '/bike-icon.svg',
             scaledSize: new window.google.maps.Size(30, 30),
@@ -56,4 +47,4 @@ export default function MapView() {
       ))}
     </GoogleMap>
   )
-}
+    }
