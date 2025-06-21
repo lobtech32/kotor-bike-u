@@ -9,7 +9,7 @@ export default function Promo() {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex-1 p-4">
+      <div className="flex-1 p-4 bg-gray-100">
         <MapView />
       </div>
       <div className="bg-white p-4 border-t border-gray-300">
@@ -17,4 +17,4 @@ export default function Promo() {
       </div>
     </div>
   )
-    }
+}
