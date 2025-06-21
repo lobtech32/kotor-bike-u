@@ -10,9 +10,20 @@ export default function BikePage() {
   const [dictionary, setDictionary] = useState(languages['en'])
 
   useEffect(() => {
-    const selectedLang = lang || localStorage.getItem('lang') || 'en'
+    const selectedLang = lang || localStorage.getItem('lang')
+
+    if (!selectedLang) {
+      // Eğer dil seçilmemişse, dil seçme ekranına yönlendir
+      const base = '/?'
+      const params = []
+      if (source) params.push(`source=${source}`)
+      if (id) params.push(`id=${id}`)
+      router.push(base + params.join('&'))
+      return
+    }
+
     setDictionary(languages[selectedLang])
-  }, [lang])
+  }, [lang, source, id])
 
   const bikeUI = (
     <>
@@ -31,7 +42,7 @@ export default function BikePage() {
     <>
       <h2>{dictionary.map}</h2>
       <iframe
-        src="https://www.google.com/maps/d/u/0/embed?mid=1U7KHfX7-örnek"
+        src="https://www.google.com/maps/d/embed?mid=1U7KHfX7-örnek"
         width="100%"
         height="250"
         style={{ border: '1px solid #ccc' }}
@@ -54,4 +65,4 @@ export default function BikePage() {
       </div>
     </div>
   )
-  }
+}
