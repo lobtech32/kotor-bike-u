@@ -10,24 +10,23 @@ export default function BikePage() {
   const [dictionary, setDictionary] = useState(languages['en'])
 
   useEffect(() => {
-    const selectedLang = lang || localStorage.getItem('lang')
+    let selectedLang = lang || localStorage.getItem('lang')
 
     if (!selectedLang) {
-      // Eğer dil seçilmemişse, dil seçme ekranına yönlendir
-      const base = '/?'
-      const params = []
-      if (source) params.push(`source=${source}`)
-      if (id) params.push(`id=${id}`)
-      router.push(base + params.join('&'))
+      // Dil seçilmemişse, kullanıcıyı dil seçme sayfasına yönlendir
+      const base = '/language'
+      router.push(base)
       return
     }
 
+    // Seçilen dili state'e ve localStorage'a kaydet
     setDictionary(languages[selectedLang])
+    localStorage.setItem('lang', selectedLang)
   }, [lang, source, id])
 
   const bikeUI = (
     <>
-      <h2>{dictionary.bikeInfo} #{id}</h2>
+      <h2>{dictionary.bikeInfo} #{id || ''}</h2>
       <p>{dictionary.battery}: 87%</p>
       <p>{dictionary.rentOptions}:</p>
       <ul>
@@ -65,4 +64,4 @@ export default function BikePage() {
       </div>
     </div>
   )
-}
+          }
