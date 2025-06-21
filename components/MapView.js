@@ -15,7 +15,6 @@ const center = {
 const exampleBikes = [
   { id: 'bike1', lat: 42.4255, lng: 18.7720 },
   { id: 'bike2', lat: 42.4230, lng: 18.7700 },
-  { id: 'bike3', lat: 42.4220, lng: 18.7740 },
 ]
 
 export default function MapView() {
@@ -27,11 +26,10 @@ export default function MapView() {
   const [bikes, setBikes] = useState([])
 
   useEffect(() => {
-    // Canlı veri API'si bağlanınca buraya çekersin
     setBikes(exampleBikes)
   }, [])
 
-  if (!isLoaded) return <div>Harita yükleniyor...</div>
+  if (!isLoaded) return <div>Loading map...</div>
 
   return (
     <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15}>
