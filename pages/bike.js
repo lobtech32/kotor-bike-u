@@ -13,13 +13,10 @@ export default function BikePage() {
     let selectedLang = lang || localStorage.getItem('lang')
 
     if (!selectedLang) {
-      // Dil seçilmemişse, kullanıcıyı dil seçme sayfasına yönlendir
-      const base = '/language'
-      router.push(base)
+      router.push('/language')
       return
     }
 
-    // Seçilen dili state'e ve localStorage'a kaydet
     setDictionary(languages[selectedLang])
     localStorage.setItem('lang', selectedLang)
   }, [lang, source, id])
@@ -64,4 +61,4 @@ export default function BikePage() {
       </div>
     </div>
   )
-          }
+    }
