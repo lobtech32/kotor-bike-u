@@ -1,51 +1,56 @@
+// pages/language.js
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
-const languages = [
-  { code: 'me', label: 'Crnogorski' },
-  { code: 'en', label: 'English' },
-  { code: 'ru', label: 'Русский' },
-  { code: 'de', label: 'Deutsch' },
-  { code: 'tr', label: 'Türkçe' },
-]
-
-export default function LanguageSelector() {
+export default function LanguagePage() {
   const router = useRouter()
 
-  function selectLanguage(code) {
-    // Dil seçildiğinde anasayfaya veya bike1 sayfasına dil parametresi ile yönlendir
-    router.push(`/bike1?lang=${code}`)
+  const selectLanguage = (lang) => {
+    localStorage.setItem('lang', lang)
+
+    // URL'deki source ve id parametrelerini al
+    const params = new URLSearchParams(window.location.search)
+    const source = params.get('source')
+    const id = params.get('id')
+
+    // Geri dönülecek URL'yi oluştur
+    let redirectURL = '/bike'
+    if (source) {
+      redirectURL += `?source=${source}`
+      if (id) redirectURL += `&id=${id}`
+      redirectURL += `&lang=${lang}`
+    } else {
+      redirectURL += `?lang=${lang}`
+    }
+
+    router.push(redirectURL)
   }
 
+  // Eğer kullanıcı daha önce dil seçmişse otomatik yönlendir
+  useEffect(() => {
+    const storedLang = localStorage.getItem('lang')
+    const params = new URLSearchParams(window.location.search)
+    const source = params.get('source')
+    const id = params.get('id')
+
+    if (storedLang && source) {
+      let redirectURL = `/bike?source=${source}`
+      if (id) redirectURL += `&id=${id}`
+      redirectURL += `&lang=${storedLang}`
+      router.push(redirectURL)
+    }
+  }, [])
+
   return (
-    <div style={{
-      height: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      background: '#f5f5f5',
-      fontFamily: 'Arial, sans-serif',
-    }}>
-      <h1 style={{ marginBottom: 30 }}>Lütfen Dilinizi Seçin</h1>
-      <div style={{ display: 'flex', gap: 20 }}>
-        {languages.map(({ code, label }) => (
-          <button
-            key={code}
-            onClick={() => selectLanguage(code)}
-            style={{
-              padding: '12px 24px',
-              fontSize: 18,
-              borderRadius: 8,
-              border: '2px solid #333',
-              background: 'white',
-              cursor: 'pointer',
-              minWidth: 120,
-            }}
-          >
-            {label}
-          </button>
-        ))}
+    <div style={{ padding: '40px', textAlign: 'center' }}>
+      <h1>Select Language / Dil Seçin</h1>
+      <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
+        <button onClick={() => selectLanguage('me')}>🇲🇪 Crnogorski</button>
+        <button onClick={() => selectLanguage('en')}>🇬🇧 English</button>
+        <button onClick={() => selectLanguage('ru')}>🇷🇺 Русский</button>
+        <button onClick={() => selectLanguage('de')}>🇩🇪 Deutsch</button>
+        <button onClick={() => selectLanguage('tr')}>🇹🇷 Türkçe</button>
       </div>
     </div>
   )
-}
+  }
